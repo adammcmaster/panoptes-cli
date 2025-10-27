@@ -120,7 +120,7 @@ def upload_subjects_attached_media(
 
     Example with only local files:
 
-    $ panoptes subject upload-attached-media  manifest.csv
+    $ panoptes subject upload-subjects-attached-media  manifest.csv
 
     eg csv
     subject_id | file_name_1 | file_name_2 | metadata
@@ -131,9 +131,9 @@ def upload_subjects_attached_media(
     If you are hosting your media yourself, you can put the URLs in the
     manifest and specify the column number(s):
 
-    $ panoptes subject upload-attached-media -r 1  manifest.csv
+    $ panoptes subject upload-subjects-attached-media -r 1  manifest.csv
 
-    $ panoptes subject upload-attached-media -r 1 -r 2  manifest.csv
+    $ panoptes subject upload-subjects-attached-media -r 1 -r 2  manifest.csv
 
     Any local files will still be detected and uploaded.
     """
@@ -268,8 +268,6 @@ def upload_subjects_attached_media(
                 return -1
         subject_rows = copy.deepcopy(upload_state['waiting_to_upload'])
 
-
-    # pending attached_media
     pending_attached_media = []
 
     def move_created(limit):
@@ -299,14 +297,15 @@ def upload_subjects_attached_media(
 
             move_created(0)
         finally:
-            if(len(pending_attached_media) > 0):
+            if (len(pending_attached_media) > 0):
                 click.echo('Error: Upload failed.', err=True)
-                if click.confirm( 'Would you like to save the upload state to resume the '
+                if click.confirm(
+                    'Would you like to save the upload state to resume the '
                     'upload later?',
                     default=True,
                 ):
                     while True:
-                        state_file_name= 'panoptes-upload-attached-media.yaml'
+                        state_file_name = 'panoptes-upload-attached-media.yaml'
 
                         state_file_name = click.prompt('Enter filename to save to', default=state_file_name,)
 
@@ -328,8 +327,7 @@ def upload_subjects_attached_media(
                                 err=True,
                             )
                             sanitized_filename = sanitize_filename(state_file_name,)
-                            if click.confirm(f'Save to {sanitized_filename}', default=True,
-                            ):
+                            if click.confirm(f'Save to {sanitized_filename}', default=True,):
                                 state_file_name = sanitized_filename
                             else:
                                 continue
@@ -404,33 +402,34 @@ def echo_subject(subject):
     m = map(lambda l: list(l.values())[0], subject.locations)
     click.echo("{} {}".format(subject.id, " ".join(m)))
 
-def _validate_file(file_path):
-        if not os.path.isfile(file_path):
-            click.echo(
-                'Error: File "{}" could not be found.'.format(
-                    file_path,
-                ),
-                err=True,
-            )
-            return False
 
-        file_size = os.path.getsize(file_path)
-        if file_size == 0:
-            click.echo(
-                'Error: File "{}" is empty.'.format(
-                    file_path,
-                ),
-                err=True,
-            )
-            return False
-        elif file_size > MAX_UPLOAD_FILE_SIZE:
-            click.echo(
-                'Error: File "{}" is {}, larger than the maximum {}.'.format(
-                    file_path,
-                    humanize.naturalsize(file_size),
-                    humanize.naturalsize(MAX_UPLOAD_FILE_SIZE),
-                ),
-                err=True,
-            )
-            return False
-        return True
+def _validate_file(file_path):
+    if not os.path.isfile(file_path):
+        click.echo(
+            'Error: File "{}" could not be found.'.format(
+                file_path,
+            ),
+            err=True,
+        )
+        return False
+
+    file_size = os.path.getsize(file_path)
+    if file_size == 0:
+        click.echo(
+            'Error: File "{}" is empty.'.format(
+                file_path,
+            ),
+            err=True,
+        )
+        return False
+    elif file_size > MAX_UPLOAD_FILE_SIZE:
+        click.echo(
+            'Error: File "{}" is {}, larger than the maximum {}.'.format(
+                file_path,
+                humanize.naturalsize(file_size),
+                humanize.naturalsize(MAX_UPLOAD_FILE_SIZE),
+            ),
+            err=True,
+        )
+        return False
+    return True
