@@ -108,7 +108,7 @@ def ls(subject_set_id, quiet, subject_ids):
     type=int,
     required=False,
 )
-def upload_attached_media(
+def upload_subjects_attached_media(
     manifest_files,
     allow_missing,
     remote_location,
