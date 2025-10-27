@@ -63,6 +63,7 @@ def ls(subject_set_id, quiet, subject_ids):
         for subject in subjects:
             echo_subject(subject)
 
+
 @subject.command(name='upload-subjects-attached-media')
 @click.argument('manifest-files', required=True, nargs=-1)
 @click.option(
