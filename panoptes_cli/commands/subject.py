@@ -14,7 +14,6 @@ from panoptes_cli.scripts.panoptes import cli
 from panoptes_client import Subject
 from panoptes_client.panoptes import PanoptesAPIException
 
-LINK_BATCH_SIZE = 10
 MAX_PENDING_SUBJECTS_ATTACHED_MEDIA = 50
 MAX_UPLOAD_FILE_SIZE = 1024 * 1024
 CURRENT_STATE_VERSION = 1
