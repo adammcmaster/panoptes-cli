@@ -122,6 +122,9 @@ def upload_subjects_attached_media(
 
     $ panoptes subject upload-subjects-attached-media  manifest.csv
 
+    $ panoptes subject upload-subjects-attached-media -f 1 -f 2 manifest.csv
+
+
     eg csv
     subject_id | file_name_1 | file_name_2 | metadata
 
@@ -290,7 +293,7 @@ def upload_subjects_attached_media(
                     subject = subjects_by_id[subject_id]
                     media_futures = []
                     for media_file in files:
-                        media_futures.append(subject.save_attached_image(media_file))
+                        media_futures.append(subject.save_attached_image(media_file, metadata=metadata))
                     pending_attached_media.append((media_futures, subject_row))
 
                     move_created(MAX_PENDING_SUBJECTS_ATTACHED_MEDIA)
