@@ -199,7 +199,7 @@ def upload_subjects_attached_media(
                     if not metadata.get('subject_id'):
                         click.echo(f'Missing subject_id in row:{row_number}', err=True)
                         return -1
-                    subject_id = metadata['subject_id']
+                    subject_id = metadata.pop('subject_id')
                     try:
                         subject_id = int(subject_id)
                     except ValueError:
